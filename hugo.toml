@@ -1,0 +1,81 @@
+baseURL = "https://example.org/"
+languageCode = "ja-jp"
+defaultContentLanguage = "ja"
+title = "Nordbahnhof"
+theme = "PaperMod"
+enableRobotsTXT = true
+paginate = 10
+
+[outputs]
+    home = ["HTML", "RSS", "JSON"] # 検索に必須
+
+[params]
+    env = "production"
+    title = "Nordbahnhof"
+    description = "Nordbahnhofのブログ"
+
+    # --- UI / UX ---
+    defaultTheme = "auto"
+    disableThemeToggle = false
+
+    ShowReadingTime = true
+    ShowWordCount = true
+    ShowShareButtons = true
+    ShowCodeCopyButtons = true
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowToc = true
+    UseHugoToc = true
+
+    ShowRssButtonInSectionTermList = true
+
+    # --- トップページ ---
+    [params.homeInfoParams]
+        Title = "Nordbahnhofのページ。 🚉"
+        Content = "Willkommen, Mach es dir gemütlich!"
+
+    # --- SNS ---
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/n0rdb4hnh0f/"
+
+    [[params.socialIcons]]
+        name = "x"
+        url = "https://twitter.com/N0rdb4hnh0f_CTF"
+
+    # --- OGP ---
+    images = ["images/default-cover.jpg"]
+
+    # --- favicon ---
+    [params.assets]
+        favicon = "/favicon.ico"
+        favicon16x16 = "/img/favicon-16x16.png"
+        favicon32x32 = "/img/favicon-32x32.png"
+
+    # --- 記事制御 ---
+    mainSections = ["posts"]
+
+# --- メニュー ---
+[[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "archives"
+    name = "Archive"
+    url = "/archives/"
+    weight = 20
+
+[[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "/search/"
+    weight = 30
+
+[[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 40
