@@ -4,6 +4,8 @@ defaultContentLanguage = "ja"
 title = "Nordbahnhof"
 theme = "PaperMod"
 enableRobotsTXT = true
+
+[pagination]
 paginate = 10
 
 [outputs]
