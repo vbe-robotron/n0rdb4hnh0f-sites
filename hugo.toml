@@ -1,5 +1,5 @@
 baseURL = "https://n0rdb4hnh0f.com/"
-languageCode = "ja-jp"
+locale = "ja-jp"
 defaultContentLanguage = "ja"
 title = "Nordbahnhof"
 theme = "PaperMod"
@@ -42,8 +42,30 @@ paginate = 10
         url = "https://github.com/n0rdb4hnh0f/"
 
     [[params.socialIcons]]
+        name = "bluesky"
+        url = "https://bsky.app/profile/n0rdb4hnh0f.bsky.social"
+
+    [[params.socialIcons]]
+        name = "discord"
+        url =  "https://discord.com/users/1487291192663212153"
+
+    [[params.socialIcons]]
         name = "x"
-        url = "https://twitter.com/N0rdb4hnh0f_CTF"
+        url = "https://x.com/N0rdb4hnh0f"
+
+    [[params.socialIcons]]
+        name = "instagram"
+        url = "https://www.instagram.com/n0rdb4hnh0f/"
+
+    [[params.socialIcons]]
+        name = "simplex"
+        url = "https://smp12.simplex.im/a#dXSs464VjtgrI17wMGbEyw_GA662UszTftIh_w89hbo"
+
+
+    [[params.socialIcons]]
+        name = "misskey"
+        url = "https://misskey.io/@N0rdb4hnh0f"
+
 
     # --- OGP ---
     images = ["images/default-cover.jpg"]
