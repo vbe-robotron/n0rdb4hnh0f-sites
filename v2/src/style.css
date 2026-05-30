@@ -43,6 +43,10 @@ li {
     @apply list-disc list-inside pl-2 space-y-1;
 }
 
+a {
+    @apply text-blue-600 hover:underline;
+}
+
 .banner-image {
     @apply max-w-full h-auto w-1/2
 }
