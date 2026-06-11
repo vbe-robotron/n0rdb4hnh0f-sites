@@ -1,60 +1,60 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans: 'Hind', sans-serif;
-    --font-mono: 'IBM Plex Sans JP', sans-serif;
+  --font-sans: "Hind", sans-serif;
+  --font-mono: "IBM Plex Sans JP", sans-serif;
 }
 
 body {
-    @apply font-sans bg-gray-200 min-h-screen flex flex-col;
+  @apply font-sans bg-gray-200 min-h-screen flex flex-col;
 }
 
 header {
-    /* スマホ: 縦並び・中央寄せ・パディング小さめ (p-6)
+  /* スマホ: 縦並び・中央寄せ・パディング小さめ (p-6)
       PC (md以上): 横並び・両端揃え・パディング大きめ (md:p-12)
     */
-    @apply flex flex-col items-center gap-4 p-6 bg-gray-800 text-white mb-6
+  @apply flex flex-col items-center gap-4 p-6 bg-gray-800 text-white mb-6
            md:flex-row md:justify-between md:gap-0 md:p-12 md:mb-8;
 }
 
 main {
-    /* 横幅の最大を 3xl (約768px) に制限して中央寄せ (mx-auto) に。
+  /* 横幅の最大を 3xl (約768px) に制限して中央寄せ (mx-auto) に。
       パディングもスマホでは p-4、PCでは md:p-8 に調整してすっきりさせます。
     */
-    @apply w-full max-w-full mx-auto p-4 md:px-12 md:py-8 flex-1;
+  @apply w-full max-w-full mx-auto p-4 md:px-12 md:py-8 flex-1;
 }
 
 footer {
-    /* ヘッダー同様、スマホでの文字の折り返しや窮屈さを防ぐために縦並びを許容 */
-    @apply flex flex-col items-center gap-2 p-6 bg-gray-800 text-white mt-auto
+  /* ヘッダー同様、スマホでの文字の折り返しや窮屈さを防ぐために縦並びを許容 */
+  @apply flex flex-col items-center gap-2 p-6 bg-gray-800 text-white mt-auto
            md:flex-row md:justify-between md:gap-0 md:p-8;
 }
 
 .section-box {
-    /* スマホではパディングを p-6 にして画面を広く使い、PCでは p-8 に。
+  /* スマホではパディングを p-6 にして画面を広く使い、PCでは p-8 に。
       ホバーアニメーションはそのまま維持しています。
     */
-    @apply bg-white rounded-lg shadow-md p-6 mb-6 transition-colors duration-400
+  @apply bg-white rounded-lg shadow-md p-6 mb-6 transition-colors duration-400
            hover:bg-blue-100 md:p-8 md:mb-8;
 }
 
 li {
-    /* list-inside を使っているので pl-5 を pl-2 程度にすると、ポッチと文字のバランスが綺麗になります */
-    @apply list-disc list-inside pl-2 space-y-1;
+  /* list-inside を使っているので pl-5 を pl-2 程度にすると、ポッチと文字のバランスが綺麗になります */
+  @apply list-disc list-inside pl-2 space-y-1;
 }
 
 a {
-    @apply text-blue-600 hover:underline;
+  @apply text-blue-600 hover:underline;
 }
 
 .banner-image {
-    @apply max-w-full h-auto w-1/2
+  @apply max-w-full h-auto w-1/2;
 }
 
 .banner-counter {
-    @apply w-auto h-1/4 flex justify-between items-center
+  @apply w-auto h-1/4 flex justify-between items-center;
 }
 
 .footer-links {
-    @apply flex gap-4 mt-4
+  @apply flex gap-4 mt-4;
 }
