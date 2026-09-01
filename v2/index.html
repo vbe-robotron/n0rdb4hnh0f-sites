@@ -35,6 +35,10 @@
     <script src="/archive-today.blocker.js" defer></script>
   </head>
   <body>
+    <!-- バナー表示用要素（headerの外または直上に配置するのが安全です） -->
+    <div id="android-banner"></div>
+    <script src="https://keepandroidopen.org/banner.js?lang=ja&id=android-banner"></script>
+
     <header>
       <h1 class="text-3xl font-bold underline">Nordbahnhofのサイト</h1>
       <img
@@ -42,7 +46,8 @@
         alt=":name"
         class="banner-counter"
       />
-    </header>
+    </header> <!-- ← 修正: 不用な「<」を削除し、ちゃんと </header> で閉じる -->
+
     <main class="p-4">
       <div id="about-me" class="section-box">
         <h2 class="text-2xl font-bold">About Me</h2>
@@ -51,6 +56,7 @@
         <p>このサイトでは、Nordbahnhofの自己紹介などを行います。</p>
         <p>プログラミングが好きです。</p>
         <p>主にGolangを使用して開発を行っています。</p>
+        <button class="rainbow-button" type="button" id="alert-btn"><ruby>不正指令電磁的記録<rt>アラートループ</rt></ruby>ボタン</button>
       </div>
       <div id="home" class="section-box">
         <h2 class="text-2xl font-bold">Home</h2>
