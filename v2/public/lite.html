@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nordbahnhof</title>
+    <meta name="description" content="Nordbahnhofのサイトv2です。" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://n0rdb4hnh0f.com/" />
+    <style>
+      body{margin:0 auto;max-width:48rem;padding:1rem;line-height:1.6;font-family:system-ui,-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;color-scheme:light dark}
+      h1{font-size:1.5rem;text-decoration:underline}
+      h2{font-size:1.25rem;border-bottom:1px solid;padding-bottom:.25rem;margin-top:2rem}
+      ul{padding-left:1.25rem}
+      a{color:#06c}
+      section{margin-bottom:2rem}
+      .greeting{font-weight:600;font-size:1.125rem}
+      .alert{font:inherit;padding:.4rem .8rem;margin-top:.5rem;cursor:pointer}
+      .language-statement{text-align:center;font-size:.875rem;margin-top:2rem}
+      .language-menu{position:fixed;right:1rem;bottom:1rem;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;font-size:.875rem}
+      .language-menu-toggle{font:inherit;width:2.5rem;height:2.5rem;border:1px solid;border-radius:999px;background:transparent;cursor:pointer}
+      .language-menu-toggle[aria-expanded="true"]{transform:rotate(45deg)}
+      .language-options{display:none;gap:.25rem;padding:.25rem;border:1px solid;border-radius:999px;background:Canvas}
+      .language-menu.is-open .language-options{display:flex}
+      .language-options button{font:inherit;padding:.25rem .6rem;border:0;border-radius:999px;background:transparent;cursor:pointer}
+      .language-options button[aria-pressed="true"]{font-weight:700;outline:2px solid}
+      footer{font-size:.875rem}
+    </style>
+  </head>
+  <body>
+    <!-- バナー表示用要素（headerの外または直上に配置するのが安全です） -->
+    <div id="android-banner"></div>
+    <script src="https://keepandroidopen.org/banner.js?lang=ja&id=android-banner"></script>
+
+    <header>
+      <h1 data-i18n="title">Nordbahnhofのサイト</h1>
+    </header>
+
+    <main>
+      <section id="about-me">
+        <h2 data-i18n="aboutHeading">About Me</h2>
+        <p class="greeting" data-i18n="greeting">こんにちは！</p>
+        <p data-i18n="about1">これはNordbahnhofのサイトです。</p>
+        <p data-i18n="about2">このサイトは、Nordbahnhofが個人的に運営しているサイトです。</p>
+        <p data-i18n="about3">このサイトでは、Nordbahnhofの自己紹介などを行います。</p>
+        <p data-i18n="about4">プログラミングが好きです。</p>
+        <p data-i18n="about5">主にGolangを使用して開発を行っています。</p>
+        <button class="alert" type="button" id="alert-btn"><ruby>不正指令電磁的記録<rt>アラートループ</rt></ruby>ボタン</button>
+      </section>
+      <section id="home">
+        <h2 data-i18n="homeHeading">Home</h2>
+        <p data-i18n="home1">このサイトは Vite + Tailwind CSS + TypeScript で構築し、GitHub Pages でホスティングしています。</p>
+        <p>
+          <span data-i18n="home2">初代サイト・現ブログ(</span><a href="https://blog.n0rdb4hnh0f.com" target="_blank" rel="noopener noreferrer" data-i18n="here">こちら</a>)<span data-i18n="home2End">はHugo製です。</span>
+        </p>
+      </section>
+      <section id="skill">
+        <h2 data-i18n="skillsHeading">Skills</h2>
+        <p data-i18n="skillsText">以下のスキルを持っています。</p>
+        <ul>
+          <li>Golang</li>
+          <li>Python</li>
+          <li>OSINT CTF</li>
+        </ul>
+      </section>
+      <section id="contact">
+        <h2 data-i18n="contactHeading">Contact</h2>
+        <p data-i18n="contactText">お問い合わせは以下の方法でお願いいたします。</p>
+        <ul>
+          <li>X:<a href="https://x.com/N0rdb4hnh0f" target="_blank" rel="noopener noreferrer">https://x.com/N0rdb4hnh0f</a></li>
+        </ul>
+      </section>
+      <section id="links">
+        <h2 data-i18n="linksHeading">Links</h2>
+        <p data-i18n="linksText">相互リンク募集中です。当サイトはリンクフリーです。</p>
+        <ul>
+          <li>ATShift:<a href="https://atserver186.jp/" target="_blank" rel="noopener noreferrer">atserver186.jp</a></li>
+          <li>めいてつ:<a href="https://meitetu.net/" target="_blank" rel="noopener noreferrer">meitetu.net</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p data-i18n="copyright">Copyright © 2024 Nordb4hnh0f</p>
+    </footer>
+    <p class="language-statement" data-i18n="languageStatement">言語帝国主義に反対します。</p>
+    <div class="language-menu">
+      <button class="language-menu-toggle" type="button" aria-label="言語を選択" aria-expanded="false">文</button>
+      <nav class="language-options" aria-label="言語コード">
+        <button type="button" data-language="ja" aria-pressed="true">ja</button>
+        <button type="button" data-language="ryu" aria-pressed="false">ryu</button>
+        <button type="button" data-language="ain" aria-pressed="false">ain</button>
+      </nav>
+    </div>
+    <script>
+      (function () {
+        var translations = {
+          ja: {
+            title: "Nordbahnhofのサイト", aboutHeading: "About Me", about1: "これはNordbahnhofのサイトです。", about2: "このサイトは、Nordbahnhofが個人的に運営しているサイトです。", about3: "このサイトでは、Nordbahnhofの自己紹介などを行います。", about4: "プログラミングが好きです。", about5: "主にGolangを使用して開発を行っています。", homeHeading: "Home", home1: "このサイトは Vite + Tailwind CSS + TypeScript で構築し、GitHub Pages でホスティングしています。", home2: "初代サイト・現ブログ(", home2End: ")はHugo製です。", here: "こちら", skillsHeading: "Skills", skillsText: "以下のスキルを持っています。", contactHeading: "Contact", contactText: "お問い合わせは以下の方法でお願いいたします。", linksHeading: "Links", linksText: "相互リンク募集中です。当サイトはリンクフリーです。", copyright: "Copyright © 2024 Nordb4hnh0f"
+          },
+          ryu: {
+            title: "Nordbahnhof ヌ サイト", aboutHeading: "わんねー誰がねー", about1: "うりや Nordbahnhof ヌ サイト やいびーん。", about2: "くぬサイトや Nordbahnhof が個人的に運営 そーん。", about3: "くぬサイトしぇー Nordbahnhof ヌ 紹介 そーん。", about4: "プログラミングが好き やいびーん。", about5: "主に Golang 使てー 開発 そーん。", homeHeading: "ホーム", home1: "くぬサイトや Vite + Tailwind CSS + TypeScript し作って、GitHub Pages し公開 そーん。", home2: "初代サイト・今ぬブログ(", home2End: ")や Hugo 製 やいびーん。", here: "うり", skillsHeading: "スキル", skillsText: "ちゃーんなスキル が ありびーん。", contactHeading: "連絡", contactText: "問い合わせや ちゃーんな方法 うにげーさびら。", linksHeading: "リンク", linksText: "相互リンク募集中 やいびーん。くぬサイトや リンクフリー やいびーん。", copyright: "Copyright © 2024 Nordb4hnh0f"
+          },
+          ain: {
+            title: "Nordbahnhof pirka itak", aboutHeading: "Ku=ani", about1: "Ta an Nordbahnhof oruspe kotan ne.", about2: "Ta an site Nordbahnhof oruspe a=kar wa a=oman.", about3: "Ta an site oruspe Nordbahnhof a=itak a=nu.", about4: "Programming ku=eramiskari ka somo ki.", about5: "Golang ku=kar wa ku=eramiskari.", homeHeading: "Cise", home1: "Ta an site Vite, Tailwind CSS, TypeScript ne a=kar wa GitHub Pages oruspe a=nu.", home2: "Pirka site ani blog(", home2End: ") Hugo ne a=kar.", here: "ta", skillsHeading: "Eramsik", skillsText: "Tane ku=eramsik an.", contactHeading: "Ukor", contactText: "Ita ku=ukor ruwe an.", linksHeading: "Link", linksText: "Link a=kor wa a=ukor.", copyright: "Copyright © 2024 Nordb4hnh0f"
+          }
+        };
+        var greetings = { ja: "こんにちは！", ryu: "ハイサイ！", ain: "Irankarapte!" };
+        var languageStatements = { ja: "言語帝国主義に反対します。", ryu: "言語帝国主義に反対します。", ain: "Giremu itak a=eyayramokte." };
+        var languageButtons = document.querySelectorAll("[data-language]");
+        function setLanguage(language) {
+          document.documentElement.lang = language;
+          document.querySelectorAll("[data-i18n]").forEach(function (element) {
+            var key = element.dataset.i18n;
+            if (key && translations[language][key]) element.textContent = translations[language][key];
+          });
+          document.querySelector('[data-i18n="greeting"]').textContent = greetings[language];
+          document.querySelector('[data-i18n="languageStatement"]').textContent = languageStatements[language];
+          languageButtons.forEach(function (button) {
+            button.setAttribute("aria-pressed", String(button.dataset.language === language));
+          });
+        }
+        languageButtons.forEach(function (button) {
+          button.addEventListener("click", function () { setLanguage(button.dataset.language); });
+        });
+        var languageMenuToggle = document.querySelector(".language-menu-toggle");
+        var languageMenu = document.querySelector(".language-menu");
+        if (languageMenuToggle) {
+          languageMenuToggle.addEventListener("click", function () {
+            var expanded = languageMenuToggle.getAttribute("aria-expanded") === "true";
+            languageMenuToggle.setAttribute("aria-expanded", String(!expanded));
+            if (languageMenu) languageMenu.classList.toggle("is-open", !expanded);
+          });
+        }
+        function alertloop() {
+          for ( ; ; ) {
+            window.alert("　∧_∧　ババババ\n（ ・ω・)=つ≡つ\n（っ ≡つ=つ\n`/　　)\n(ノΠＵ\n何回閉じても無駄ですよ～ww\nm9（＾Д＾）プギャー！！\n逮捕できるもんならやってみろ、兵庫県警");
+          }
+        }
+        var btn = document.getElementById("alert-btn");
+        if (btn) btn.addEventListener("click", alertloop);
+      })();
+    </script>
+  </body>
+</html>
