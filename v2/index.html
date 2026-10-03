@@ -4,24 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
-      // 回線が遅い（2G/slow-2G・データ節約モード・prefers-reduced-data）場合は、
-      // 極力軽い簡易版ページ (/lite.html) へ、重いアセットを取りに行く前に即時転送する。
-      // 通常版を強制したいときは ?full=1、簡易版を強制したいときは ?lite=1 を付ける。
+      // 回線が遅い（2G/slow-2G・データ節約・prefers-reduced-data・実測で明らかに遅い）場合は、
+      // 重いアセットを取りに行く前に、極力軽い簡易版ページ (/lite.html) へ即時転送する。
+      // ?full=1 で通常版を強制、?lite=1 で簡易版を強制。
       (function () {
         try {
           var search = window.location.search;
           if (/[?&]full=1(?:&|$)/.test(search)) return;
-          if (/[?&]lite=1(?:&|$)/.test(search)) { window.location.replace("/lite.html"); return; }
-          var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-          var slow = !!connection && (
+          function goLite() { window.location.replace("/lite.html"); }
+          if (/[?&]lite=1(?:&|$)/.test(search)) { goLite(); return; }
+
+          var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+
+          // ここまでの所要時間 = DNS/TCP/TLS + 初回応答 + 先頭チャンク受信までの実測値(ms)。
+          // DevTools などの回線絞り込みは Network Information API に反映されない
+          // (effectiveType は "4g"、rtt は 100 固定のまま) ため、実測値を併用する。
+          var elapsed = window.performance && window.performance.now ? window.performance.now() : 0;
+          var slowThreshold = 400;
+
+          var slow =
             connection.saveData === true ||
             connection.effectiveType === "slow-2g" ||
-            connection.effectiveType === "2g"
-          );
-          if (!slow && window.matchMedia && window.matchMedia("(prefers-reduced-data: reduce)").matches) {
-            slow = true;
-          }
-          if (slow) window.location.replace("/lite.html");
+            connection.effectiveType === "2g" ||
+            (typeof connection.rtt === "number" && connection.rtt >= 400) ||
+            elapsed >= slowThreshold ||
+            (window.matchMedia && window.matchMedia("(prefers-reduced-data: reduce)").matches);
+
+          if (slow) goLite();
         } catch (error) {
           /* 判定できない場合は通常版を表示する */
         }
