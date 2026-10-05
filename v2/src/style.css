@@ -1,150 +1,208 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Nordbahnhof v2 - Windows UX Guide theme (Aero, Windows 7 / Vista)
+   Presentation only: text, structure and behavior are unchanged.
+   Sized in rem (--ui-scale); the era's pixel tightness lives in the 1px
+   hairlines only; the frame is a DWM-style blur composite, not an opaque fill.
+   ========================================================================== */
+
 @theme {
-  --font-sans: "Hind", sans-serif;
-  --font-mono: "IBM Plex Sans JP", sans-serif;
+  --font-sans: "Meiryo UI", Meiryo, "Segoe UI", "Segoe UI Variable Text",
+    Myriad, "Myriad Pro", "Myriad Set Pro", Hind, "Noto Sans", "Noto Sans JP",
+    "Noto Sans CJK JP", system-ui, sans-serif;
 }
 
+:root {
+  --ui-scale: 1;
+  --font-ui: var(--font-sans);
+  --ui-font: calc(0.875rem * var(--ui-scale));
+  --ui-font-sm: calc(0.8125rem * var(--ui-scale));
+  --ui-font-lg: calc(1.125rem * var(--ui-scale));
+  --ui-line: 1.5;
+
+  --hairline: 1px;
+  --hl-inner: rgba(255, 255, 255, .65);
+  --stroke: rgba(0, 0, 0, .28);
+  --group-line: #d5d5d5;
+
+  --window: #ffffff;
+  --control: #f0f0f0;
+  --text: #1a1a1a;
+  --link: #0066cc;
+  --selection: #cce8ff;
+  --highlight: #3399ff;
+
+  --glass-blur: 20px;
+  --glass-sat: 1.6;
+  --glass-top: rgba(240, 248, 255, .52);
+  --glass-mid: rgba(208, 229, 250, .40);
+  --glass-bot: rgba(170, 202, 234, .34);
+  --shadow-win: 0 1px 2px rgba(0, 0, 0, .18), 0 12px 32px rgba(0, 0, 0, .30);
+
+  --frame-x: 0.5rem;
+  --frame-b: 1.25rem;
+  --titlebar-h: 3.25rem;
+
+  color-scheme: light;
+}
+
+@media (min-resolution: 2dppx) { :root { --hairline: 0.5px; } }
+
+html { font-size: 100%; }
+
+/* --- desktop: neutral era wallpaper the glass samples ---------------------- */
 body {
-  @apply font-sans bg-gray-200 min-h-screen flex flex-col;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--ui-font);
+  line-height: var(--ui-line);
+  color: var(--text);
+  background-color: #1c3a50;
+  background-image:
+    radial-gradient(120% 90% at 15% 0%, #5b8fb9 0%, rgba(91, 143, 185, 0) 55%),
+    radial-gradient(120% 90% at 90% 10%, #7fb2a6 0%, rgba(127, 178, 166, 0) 50%),
+    linear-gradient(160deg, #274a63 0%, #16303f 60%, #0e2230 100%);
+  background-attachment: fixed;
 }
 
-header {
-  /* スマホ: 縦並び・中央寄せ・パディング小さめ (p-6)
-      PC (md以上): 横並び・両端揃え・パディング大きめ (md:p-12)
-    */
-  @apply flex flex-col items-center gap-4 p-6 bg-gray-800 text-white mb-6
-           md:flex-row md:justify-between md:gap-0 md:p-12 md:mb-8;
+/* ==========================================================================
+   Window frame - one composited glass layer per window (extended frame
+   left 8 / right 8 / bottom 20 / top 27)
+   ========================================================================== */
+.aero-window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  width: min(52rem, calc(100% - 1.5rem));
+  margin: 1.5rem auto 0.5rem;
+  padding: 0 var(--frame-x) var(--frame-b);
+  border-radius: 8px 8px 5px 5px;
+  background: linear-gradient(to bottom, var(--glass-top) 0%, var(--glass-mid) 42%, var(--glass-bot) 100%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  box-shadow:
+    inset 0 var(--hairline) 0 rgba(255, 255, 255, .9),
+    0 0 0 var(--hairline) rgba(0, 0, 0, .38),
+    var(--shadow-win);
 }
 
-.greeting { @apply text-xl font-semibold; }
-.language-statement { @apply mb-4 text-center text-sm text-gray-600; }
-.language-menu { @apply fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2; }
-.language-menu-toggle { @apply flex h-14 w-14 items-center justify-center rounded-full bg-gray-800 text-xl font-bold text-white shadow-lg transition-transform hover:scale-110; }
-.language-menu-toggle[aria-expanded="true"] { @apply rotate-45; }
-.language-options { @apply hidden flex-col gap-2 rounded-2xl bg-white p-2 shadow-xl; }
-.language-menu.is-open .language-options { @apply flex; }
-.language-options button { @apply h-10 min-w-12 rounded-full px-3 font-mono font-bold text-gray-800 transition-colors hover:bg-gray-200; }
-.language-options button[aria-pressed="true"] { @apply bg-gray-800 text-white; }
-
-main {
-  /* 横幅の最大を 3xl (約768px) に制限して中央寄せ (mx-auto) に。
-      パディングもスマホでは p-4、PCでは md:p-8 に調整してすっきりさせます。
-    */
-  @apply w-full max-w-full mx-auto p-4 md:px-12 md:py-8 flex-1;
+/* title bar = the 27px cap of the extended frame */
+.aero-window > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  min-height: var(--titlebar-h);
+  padding: .5rem .6rem;
 }
 
-footer {
-  /* ヘッダー同様、スマホでの文字の折り返しや窮屈さを防ぐために縦並びを許容 */
-  @apply flex flex-col items-center gap-2 p-6 bg-gray-800 text-white mt-auto
-           md:flex-row md:justify-between md:gap-0 md:p-8;
+.aero-window > header h1 {
+  margin: 0;
+  font-size: calc(1.5rem * var(--ui-scale));
+  font-weight: 600;
+  line-height: 1.3;
+  color: #0e2b45;
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 1),
+    0 0 4px rgba(255, 255, 255, .95),
+    0 0 10px rgba(255, 255, 255, .85),
+    0 0 18px rgba(255, 255, 255, .6);
+}
+
+.banner-counter { width: auto; height: 2.25rem; image-rendering: pixelated; }
+
+/* client area: opaque, never blurred */
+.aero-window > main {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding: calc(var(--ui-font) * 1.1);
+  background: var(--window);
+  border: var(--hairline) solid var(--stroke);
+  border-bottom: 0;
+}
+
+/* ==========================================================================
+   Content: group boxes, type, lists, links, command buttons
+   ========================================================================== */
+.aero-window h2 {
+  margin: 0 0 .6rem;
+  padding-bottom: .35rem;
+  font-size: calc(var(--ui-font) * 1.15);
+  font-weight: 600;
+  color: #16324f;
+  border-bottom: var(--hairline) solid var(--group-line);
 }
 
 .section-box {
-  /* スマホではパディングを p-6 にして画面を広く使い、PCでは p-8 に。
-      ホバーアニメーションはそのまま維持しています。
-    */
-  @apply bg-white rounded-lg shadow-md p-6 mb-6 transition-colors duration-400
-           hover:bg-blue-100 md:p-8 md:mb-8;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  padding: .9rem 1.1rem 1rem;
+  background: #ffffff;
+  border: var(--hairline) solid var(--group-line);
+  border-radius: 3px;
+  box-shadow: inset 0 var(--hairline) 0 var(--hl-inner);
+  transition: background-color 140ms ease, border-color 140ms ease;
 }
 
-li {
-  /* list-inside を使っているので pl-5 を pl-2 程度にすると、ポッチと文字のバランスが綺麗になります */
-  @apply list-disc list-inside pl-2 space-y-1;
-}
+.section-box:hover { background: #f4faff; border-color: #b7d9f0; }
+.section-box p { margin: 0 0 .55rem; }
+.section-box p:last-child { margin-bottom: 0; }
 
-a {
-  @apply text-blue-600 hover:underline;
-}
+.greeting { font-size: var(--ui-font-lg); font-weight: 600; color: #16324f; }
 
-/* 輝く原色・蛍光色の超高速グラデーションアニメーション */
+ul { margin: .4rem 0 0; padding-left: 1.3em; list-style: disc outside; }
+li { margin: 0 0 .2rem; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+:focus-visible { outline: var(--hairline) dotted currentColor; outline-offset: 2px; }
+
+/* --- restored: the rainbow button keeps its original look/animations -------- */
 @keyframes rainbow-extreme {
   0% { background-position: 0% 50%; }
   100% { background-position: 400% 50%; }
-}
-
-/* 金色の後光ビーム用アニメーション */
-@keyframes aura-rotate {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.15); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-
-@keyframes rainbow-extreme {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 400% 50%; }
-}
-
-/* ホバー時の放射状スパーク爆発 */
-@keyframes particle-explode-hover {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.2);
-    box-shadow: 
-      0 -60px 15px #ff0055, 
-      60px 0 15px #00ffff, 
-      0 60px 15px #ffff00, 
-      -60px 0 15px #00ff00,
-      45px -45px 15px #aa00ff,
-      -45px 45px 15px #ff7700;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.8);
-    box-shadow: 
-      0 -140px 30px #ff0055, 
-      140px 0 30px #00ffff, 
-      0 140px 30px #ffff00, 
-      -140px 0 30px #00ff00,
-      100px -100px 30px #aa00ff,
-      -100px 100px 30px #ff7700;
-  }
-}
-
-/* クリック時（active）の超高速・純白ショックウェーブ＆閃光爆発 */
-@keyframes particle-explode-click {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.5);
-    box-shadow: 
-      0 0 0 0px rgba(255, 255, 255, 1),
-      0 -40px 10px #ffffff, 
-      40px 0 10px #ffffff, 
-      0 40px 10px #ffffff, 
-      -40px 0 10px #ffffff;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2.5);
-    box-shadow: 
-      0 0 0 50px rgba(255, 255, 255, 0),
-      0 -180px 40px rgba(255, 255, 255, 0), 
-      180px 0 40px rgba(255, 255, 255, 0), 
-      0 180px 40px rgba(255, 255, 255, 0), 
-      -180px 0 40px rgba(255, 255, 255, 0);
-  }
 }
 
 .rainbow-button {
-  @apply
-    relative inline-flex items-center justify-center px-10 py-5 m-6
-    text-2xl font-black text-white uppercase tracking-widest
-    bg-[linear-gradient(90deg,#ff0055,#ff0000,#ff7700,#ffff00,#00ff00,#00ffff,#0055ff,#aa00ff,#ff0055)]
-    bg-[length:400%_100%]
-    animate-[rainbow-extreme_1.5s_linear_infinite]
-    rounded-full border-4 border-yellow-300
-    transition-all duration-200 ease-out transform
-    hover:scale-125 hover:-translate-y-1 hover:rotate-3
-    hover:border-white
-    active:scale-90 active:rotate-0
-    select-none;
-
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem;
+  padding: 1.25rem 2.5rem;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #ff0055, #ff0000, #ff7700, #ffff00, #00ff00, #00ffff, #0055ff, #aa00ff, #ff0055);
+  background-size: 400% 100%;
+  animation: rainbow-extreme 1.5s linear infinite;
+  border: 4px solid #fde047;
+  border-radius: 9999px;
   box-shadow: none;
+  user-select: none;
+  transition: transform 200ms ease-out, border-color 200ms ease-out;
 }
 
-/* ================================
-   ホバー：虹色の爆発ショックウェーブ
-   ================================ */
+.rainbow-button:hover {
+  transform: scale(1.25) translateY(-0.25rem) rotate(3deg);
+  border-color: #ffffff;
+}
+
+.rainbow-button:active {
+  transform: scale(0.9) rotate(0deg);
+}
 
 .rainbow-button::before,
 .rainbow-button::after {
@@ -175,104 +233,173 @@ a {
   transform: scale(0.8);
 }
 
-.rainbow-button:hover::before {
-  animation: rainbow-shockwave 0.55s ease-out infinite;
-}
-
-.rainbow-button:hover::after {
-  animation: rainbow-shockwave 0.55s 0.12s ease-out infinite;
-}
-
-
-/* ================================
-   クリック：超高速・四方向爆発
-   ================================ */
+.rainbow-button:hover::before { animation: rainbow-shockwave 0.55s ease-out infinite; }
+.rainbow-button:hover::after { animation: rainbow-shockwave 0.55s 0.12s ease-out infinite; }
 
 .rainbow-button:active::before {
   inset: -25px;
   opacity: 1;
-  border: 10px solid white;
+  border: 10px solid #ffffff;
   box-shadow:
-    0 0 15px white,
+    0 0 15px #ffffff,
     0 0 35px #00ffff,
     0 0 70px #ff00ff,
     0 0 110px #ffff00;
-
-  animation: click-explosion 0.28s
-    cubic-bezier(.1,.8,.2,1) forwards;
+  animation: click-explosion 0.28s cubic-bezier(.1, .8, .2, 1) forwards;
 }
 
 .rainbow-button:active::after {
   inset: -45px;
   opacity: 1;
-  border: 3px dashed white;
+  border: 3px dashed #ffffff;
   box-shadow:
     0 0 20px #ff0055,
     0 0 50px #00ffff,
     0 0 90px #aa00ff;
-
-  animation: click-ring 0.35s
-    cubic-bezier(.1,.8,.2,1) forwards;
+  animation: click-ring 0.35s cubic-bezier(.1, .8, .2, 1) forwards;
 }
 
-
-/* ================================
-   アニメーション
-   ================================ */
-
 @keyframes rainbow-shockwave {
-  0% {
-    opacity: 0.9;
-    transform: scale(0.8);
-  }
-
-  60% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.45);
-  }
+  0% { opacity: 0.9; transform: scale(0.8); }
+  60% { opacity: 0.5; }
+  100% { opacity: 0; transform: scale(1.45); }
 }
 
 @keyframes click-explosion {
-  0% {
-    opacity: 1;
-    transform: scale(0.75);
-  }
-
-  35% {
-    opacity: 1;
-    transform: scale(1.15);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.7);
-  }
+  0% { opacity: 1; transform: scale(0.75); }
+  35% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0; transform: scale(1.7); }
 }
 
 @keyframes click-ring {
-  0% {
-    opacity: 1;
-    transform: scale(0.65) rotate(0deg);
+  0% { opacity: 1; transform: scale(0.65) rotate(0deg); }
+  100% { opacity: 0; transform: scale(1.6) rotate(90deg); }
+}
+
+/* ==========================================================================
+   Status bar
+   ========================================================================== */
+.aero-window > footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  box-sizing: border-box;
+  padding: .45rem .9rem;
+  font-size: var(--ui-font-sm);
+  color: #333333;
+  background: var(--control);
+  border: var(--hairline) solid var(--stroke);
+  border-radius: 0 0 4px 4px;
+}
+
+.aero-window > footer p { margin: 0; }
+.footer-links { display: flex; align-items: center; gap: .75rem; }
+.footer-links img { display: block; width: auto; height: 1.9rem; }
+
+/* ==========================================================================
+   Language bar + Aero popup menu
+   ========================================================================== */
+.language-statement {
+  margin: .75rem 0 4.5rem;
+  text-align: center;
+  font-size: var(--ui-font-sm);
+  color: rgba(255, 255, 255, .9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
+}
+
+.language-menu {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .35rem;
+}
+
+.language-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  font-family: inherit;
+  font-size: var(--ui-font);
+  font-weight: 600;
+  color: #0e2b45;
+  cursor: pointer;
+  border: var(--hairline) solid rgba(0, 0, 0, .5);
+  border-radius: 3px;
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, .96) 0%, rgba(226, 238, 249, .94) 50%,
+    rgba(200, 222, 243, .94) 50%, rgba(181, 208, 233, .94) 100%);
+  box-shadow: inset 0 var(--hairline) 0 rgba(255, 255, 255, .95), 0 2px 6px rgba(0, 0, 0, .38);
+}
+
+.language-menu-toggle:hover { border-color: rgba(0, 0, 0, .7); }
+
+.language-menu-toggle[aria-expanded="true"] {
+  background: linear-gradient(to bottom, #b9c9d8 0%, #cbd8e5 100%);
+  box-shadow: inset 0 var(--hairline) 2px rgba(0, 0, 0, .35);
+}
+
+.language-options {
+  display: none;
+  flex-direction: column;
+  min-width: 6rem;
+  padding: 2px;
+  background: #f0f0f0;
+  border: var(--hairline) solid #a0a0a0;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .35);
+}
+
+.language-menu.is-open .language-options { display: flex; }
+
+.language-options button {
+  padding: .3rem .7rem;
+  font-family: inherit;
+  font-size: var(--ui-font-sm);
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+}
+
+.language-options button:hover { background: var(--selection); }
+
+.language-options button[aria-pressed="true"] {
+  background: var(--highlight);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Modern-host adaptations
+   ========================================================================== */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .aero-window { background: linear-gradient(to bottom, #dce9f6 0%, #c9dcef 42%, #b4cde6 100%); }
+}
+
+@media (forced-colors: active) {
+  .aero-window { background: Canvas; border: 1px solid CanvasText; box-shadow: none; }
+  .aero-window > main,
+  .aero-window > footer { border-color: CanvasText; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
   }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.6) rotate(90deg);
-  }
 }
 
-.banner-image {
-  @apply max-w-full h-auto w-1/2;
-}
-
-.banner-counter {
-  @apply w-auto h-1/4 flex justify-between items-center;
-}
-
-.footer-links {
-  @apply flex gap-4 mt-4;
+@media (min-width: 40rem) {
+  .aero-window { width: min(52rem, calc(100% - 3rem)); margin-top: 3rem; }
+  .aero-window > footer { flex-direction: row; justify-content: space-between; }
 }

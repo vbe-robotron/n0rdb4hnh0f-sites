@@ -3,42 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script>
-      // 回線が遅い（2G/slow-2G・データ節約・prefers-reduced-data・実測で明らかに遅い）場合は、
-      // 重いアセットを取りに行く前に、極力軽い簡易版ページ (/lite.html) へ即時転送する。
-      // ?full=1 で通常版を強制、?lite=1 で簡易版を強制。
-      (function () {
-        try {
-          var search = window.location.search;
-          if (/[?&]full=1(?:&|$)/.test(search)) return;
-          function goLite() { window.location.replace("/lite.html"); }
-          if (/[?&]lite=1(?:&|$)/.test(search)) { goLite(); return; }
+<script>
+  (function () {
+    try {
+      var search = window.location.search;
+      if (/[?&]full=1(?:&|$)/.test(search)) return;
+      function goLite() { window.location.replace("/lite.html"); }
+      if (/[?&]lite=1(?:&|$)/.test(search)) { goLite(); return; }
 
-          var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+      var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
 
-          // ここまでの所要時間 = DNS/TCP/TLS + 初回応答 + 先頭チャンク受信までの実測値(ms)。
-          // DevTools などの回線絞り込みは Network Information API に反映されない
-          // (effectiveType は "4g"、rtt は 100 固定のまま) ため、実測値を併用する。
-          var elapsed = window.performance && window.performance.now ? window.performance.now() : 0;
-          var slowThreshold = 400;
+      // 明確に低速なプロファイル・明示的な節約モードのみを対象にする
+      var isSlowEffectiveType = connection.effectiveType === "slow-2g" || connection.effectiveType === "2g";
+      var isSaveData = connection.saveData === true;
+      var isPrefersReducedData = window.matchMedia && window.matchMedia("(prefers-reduced-data: reduce)").matches;
 
-          var slow =
-            connection.saveData === true ||
-            connection.effectiveType === "slow-2g" ||
-            connection.effectiveType === "2g" ||
-            (typeof connection.rtt === "number" && connection.rtt >= 400) ||
-            elapsed >= slowThreshold ||
-            (window.matchMedia && window.matchMedia("(prefers-reduced-data: reduce)").matches);
+      // RTT単体ではなく、effectiveType等と組み合わせて判定、あるいは高い閾値（例: 1000ms以上）に設定
+      var isHighLatency = typeof connection.rtt === "number" && connection.rtt >= 1000;
 
-          if (slow) goLite();
-        } catch (error) {
-          /* 判定できない場合は通常版を表示する */
-        }
-      })();
-    </script>
+      var slow = isSaveData || isSlowEffectiveType || isPrefersReducedData || isHighLatency;
+
+      if (slow) goLite();
+    } catch (error) {
+      /* 判定できない場合は通常版を表示する */
+    }
+  })();
+</script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=IBM+Plex+Sans+JP&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
@@ -72,9 +65,10 @@
     <div id="android-banner"></div>
     <script src="https://keepandroidopen.org/banner.js?lang=ja&id=android-banner"></script>
 
+    <div class="aero-window">
     <header>
       <div>
-        <h1 class="text-3xl font-bold underline" data-i18n="title">Nordbahnhofのサイト</h1>
+        <h1 data-i18n="title">Nordbahnhofのサイト</h1>
       </div>
       <img
         src="http://moecounter.atserver186.jp/@:N0rdb4hnh0f"
@@ -83,9 +77,9 @@
       />
     </header> <!-- ← 修正: 不用な「<」を削除し、ちゃんと </header> で閉じる -->
 
-    <main class="p-4">
+    <main>
       <div id="about-me" class="section-box">
-        <h2 class="text-2xl font-bold" data-i18n="aboutHeading">About Me</h2>
+        <h2 data-i18n="aboutHeading">About Me</h2>
         <p class="greeting" data-i18n="greeting">こんにちは！</p>
         <p data-i18n="about1">これはNordbahnhofのサイトです。</p>
         <p data-i18n="about2">このサイトは、Nordbahnhofが個人的に運営しているサイトです。</p>
@@ -95,7 +89,7 @@
         <button class="rainbow-button" type="button" id="alert-btn"><ruby>不正指令電磁的記録<rt>アラートループ</rt></ruby>ボタン</button>
       </div>
       <div id="home" class="section-box">
-        <h2 class="text-2xl font-bold" data-i18n="homeHeading">Home</h2>
+        <h2 data-i18n="homeHeading">Home</h2>
         <p data-i18n="home1">
           このサイトは Vite + Tailwind CSS + TypeScript で構築し、GitHub Pages
           でホスティングしています。
@@ -109,7 +103,7 @@
         </p>
       </div>
       <div id="skill" class="section-box">
-        <h2 class="text-2xl font-bold" data-i18n="skillsHeading">Skills</h2>
+        <h2 data-i18n="skillsHeading">Skills</h2>
         <p data-i18n="skillsText">以下のスキルを持っています。</p>
         <ul>
           <li>Golang</li>
@@ -118,7 +112,7 @@
         </ul>
       </div>
       <div id="contact" class="section-box">
-        <h2 class="text-2xl font-bold" data-i18n="contactHeading">Contact</h2>
+        <h2 data-i18n="contactHeading">Contact</h2>
         <p data-i18n="contactText">お問い合わせは以下の方法でお願いいたします。</p>
         <ul>
           <li>
@@ -132,7 +126,7 @@
         </ul>
       </div>
       <div id="links" class="section-box">
-        <h2 class="text-2xl font-bold" data-i18n="linksHeading">Links</h2>
+        <h2 data-i18n="linksHeading">Links</h2>
         <p data-i18n="linksText">相互リンク募集中です。当サイトはリンクフリーです。</p>
         <ul>
           <li>
@@ -173,6 +167,7 @@
         </a>
       </div>
     </footer>
+    </div>
     <p class="language-statement" data-i18n="languageStatement">言語帝国主義に反対します。</p>
     <div class="language-menu">
       <button class="language-menu-toggle" type="button" aria-label="言語を選択" aria-expanded="false">文</button>
